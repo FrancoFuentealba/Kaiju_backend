@@ -1,0 +1,34 @@
+KAIJU BACKEND (Spring Boot 3 + Java 17 + JPA + H2/MySQL)
+
+REQUISITOS
+- JDK 17 o superior (java -version)
+- IntelliJ IDEA (Community sirve) o VS Code con Extension Pack for Java. Maven viene incluido en IntelliJ.
+
+CÓMO ABRIRLO
+1. Copia el contenido de esta carpeta dentro de tu repositorio Kaiju_backend (junto a .git y README.md).
+2. Abre la carpeta en IntelliJ: se detecta pom.xml y descarga las dependencias.
+
+CÓMO EJECUTAR
+- En IntelliJ: abre KaijuBackendApplication.java y pulsa el triángulo verde.
+- Con Maven instalado: mvn spring-boot:run
+La API queda en http://localhost:8080/api/v1/productos (la primera vez carga 6 productos ficticios).
+La base H2 se guarda en la carpeta ./data (no se sube a git).
+
+PRUEBAS
+- mvn test   (19 pruebas: reglas de stock y toda la API sobre una base H2 en memoria)
+
+PROBAR A MANO (PowerShell; usa curl.exe, no curl)
+  curl.exe http://localhost:8080/api/v1/productos
+  curl.exe "http://localhost:8080/api/v1/productos?soloStockBajo=true"
+  curl.exe http://localhost:8080/api/v1/productos/1/movimientos
+  curl.exe -X POST http://localhost:8080/api/v1/productos/1/movimientos -H "Content-Type: application/json" -d "{\"tipo\":\"VENTA\",\"cantidad\":2,\"nota\":\"prueba\"}"
+
+CONECTAR LA APP
+- Emulador de Android Studio: la app usa http://10.0.2.2:8080/api/v1/ (10.0.2.2 es el computador).
+- Teléfono físico: la app y el computador en la misma red WiFi, y la URL con la IP del computador (ipconfig),
+  por ejemplo http://192.168.1.50:8080/api/v1/. Puede que Windows pida permitir Java en el firewall.
+
+MYSQL (por ejemplo RDS en AWS Academy)
+  Variables de entorno: DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+  Ejecutar con: mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+  La base (schema) debe existir; las tablas se crean solas.
